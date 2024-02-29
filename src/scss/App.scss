@@ -1,0 +1,26 @@
+@import "bootstrap/scss/bootstrap";
+
+.bs-tabs-container
+{
+    width: 80%;
+    display: flex;
+}
+
+.bs-tabs-tabs-container
+{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bs-tabs-tab
+{
+    display: flex;
+    align-items: stretch;
+}
+
+.bs-tabs-tab>span
+{
+    display: flex;
+    align-items: center;
+}
