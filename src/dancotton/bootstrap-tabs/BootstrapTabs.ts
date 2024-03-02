@@ -1,5 +1,3 @@
-type ChangeListener = (e: Event) => void;
-
 export interface BSSettings
 {
     disableDelete: boolean;
@@ -8,6 +6,8 @@ export interface BSSettings
     sort: (a: string, b: string) => number;
     valueSeparator: string;
 }
+
+type ChangeListener = (e: Event) => void;
 
 export class BootstrapTabs
 {
@@ -131,9 +131,13 @@ export class BootstrapTabs
         if (!this._settings?.disableDelete)
         {
             let deleteBtn = document.createElement("button");
-            deleteBtn.classList.add("btn", "text-dark");
-            deleteBtn.innerText = 'x';
-            deleteBtn.addEventListener("click", this.removeTab.bind(this, text)); // TODO improve
+            deleteBtn.classList.add(
+                "btn",
+                "btn-sm",
+                "text-dark"
+            );
+            deleteBtn.innerHTML = `<i class="bi bi-x-circle"></i>`;
+            deleteBtn.addEventListener("click", this.removeTab.bind(this, text));
             tab.appendChild(deleteBtn);
         }
 
