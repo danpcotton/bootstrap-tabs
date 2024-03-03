@@ -1,27 +1,27 @@
 export interface BSSettings
 {
-    disableDelete: boolean;
-    beforeAdd: (text: string) => boolean;
-    sortItems: boolean;
-    sort: (a: string, b: string) => number;
-    valueSeparator: string;
+    disableDelete?: boolean;
+    beforeAdd?: (text: string) => boolean; // Validation
+    sortItems?: boolean;
+    sort?: (a: string, b: string) => number;
+    valueSeparator?: string;
+    tabClassList?: Array<string>;
+    deleteBtnClassList?: Array<string>;
+    tabContentRenderer?: (text: string, index: number) => string;
+    deleteContentRenderer?: (text: string, index: number) => string;
 }
-
-type ChangeListener = (e: Event) => void;
 
 export class BootstrapTabs
 {
     private _element: HTMLInputElement;
     private _settings: BSSettings;
 
-    private inputListener: ChangeListener;
-    private changeListener: ChangeListener;
-
-    private items: Array<string> = [];
+    private changeListener: (e: Event) => void;
 
     private container: HTMLDivElement;
     private tabsContainer: HTMLDivElement;
     private dummyInput: HTMLInputElement;
+    private items: Array<string> = [];
     private tabs: Array<HTMLDivElement> = [];
 
     constructor(element: HTMLInputElement, settings: BSSettings = null)
@@ -34,10 +34,8 @@ export class BootstrapTabs
     private init(): void
     {
         this._element.style.display = "none";
-
         this.create();
 
-        this.inputListener = this.onInputTriggered.bind(this);
         this.changeListener = this.onChangedTriggered.bind(this);
         this.addListeners();
     }
@@ -59,19 +57,15 @@ export class BootstrapTabs
         this.dummyInput.classList.add("form-control");
         this.container.appendChild(this.dummyInput);
 
+        // Add to DOM
         this._element.parentElement.insertBefore(this.container, this._element.nextElementSibling);
-    }
-
-    private onInputTriggered(e: Event): void
-    {
-        // TODO
     }
 
     private onChangedTriggered(e: Event): void
     {
         let text: string = this.dummyInput.value;
-
         let valid: boolean = true;
+
         if (this._settings?.beforeAdd)
         {
             valid = this._settings.beforeAdd(text);
@@ -125,18 +119,36 @@ export class BootstrapTabs
     private createTab(text: string, index: number): HTMLDivElement
     {
         let tab: HTMLDivElement = document.createElement("div");
-        tab.classList.add("bs-tabs-tab", "badge", "bg-light", "text-dark");
-        tab.innerHTML = `<span>${text}</span>`;
+
+        let tabClasses: Array<string> = ["bs-tabs-tab"]; // Always add these
+        tabClasses.push(...(this._settings?.tabClassList ?? [
+            "badge",
+            "bg-light",
+            "text-dark"
+        ]));
+        tab.classList.add(...tabClasses);
+
+        let tabContent: string = `<span>${text}</span>`;
+        if (this._settings?.tabContentRenderer)
+        {
+            tabContent = this._settings.tabContentRenderer(text, index);
+        }
+        tab.innerHTML = tabContent;
 
         if (!this._settings?.disableDelete)
         {
             let deleteBtn = document.createElement("button");
-            deleteBtn.classList.add(
-                "btn",
-                "btn-sm",
-                "text-dark"
-            );
-            deleteBtn.innerHTML = `<i class="bi bi-x-circle"></i>`;
+            let deleteBtnClasses: Array<string> = [];
+            deleteBtnClasses.push(...(this._settings?.deleteBtnClassList ?? ["btn", "btn-sm", "text-dark"]));
+            deleteBtn.classList.add(...deleteBtnClasses);
+
+            let deleteContent = `<i class="bi bi-x-circle"></i>`;
+            if (this._settings?.deleteContentRenderer)
+            {
+                deleteContent = this._settings.deleteContentRenderer(text, index);
+            }
+            deleteBtn.innerHTML = deleteContent;
+
             deleteBtn.addEventListener("click", this.removeTab.bind(this, text));
             tab.appendChild(deleteBtn);
         }
@@ -152,14 +164,22 @@ export class BootstrapTabs
 
     private addListeners(): void
     {
-        this.dummyInput.addEventListener("input", this.inputListener, false);
         this.dummyInput.addEventListener("change", this.changeListener, false);
     }
 
     private removeListeners(): void
     {
-        this.dummyInput.removeEventListener("input", this.inputListener);
         this.dummyInput.removeEventListener("change", this.changeListener);
+    }
+
+    public dispose(): void
+    {
+        while (this.items.length)
+        {
+            this.removeTab(this.items[0]);
+        }
+        this.removeListeners();
+        this._element.parentElement.removeChild(this.container);
     }
 
     public get element(): HTMLInputElement { return this._element; }
