@@ -14,6 +14,7 @@ export interface BSSettings
 export class BootstrapTabs
 {
     private _element: HTMLInputElement;
+    private _elementDisplayValue: string;
     private _settings: BSSettings;
 
     private changeListener: (e: Event) => void;
@@ -33,6 +34,7 @@ export class BootstrapTabs
 
     private init(): void
     {
+        this._elementDisplayValue = this._element.style.display; // Cache
         this._element.style.display = "none";
         this.create();
 
@@ -54,6 +56,7 @@ export class BootstrapTabs
         // Dummy replicates the existing input to handle the 'current' text
         this.dummyInput = document.createElement("input");
         this.dummyInput.type = "text";
+        this.dummyInput.placeholder = this._element.placeholder;
         this.dummyInput.classList.add("form-control");
         this.container.appendChild(this.dummyInput);
 
@@ -180,6 +183,7 @@ export class BootstrapTabs
         }
         this.removeListeners();
         this._element.parentElement.removeChild(this.container);
+        this._element.style.display = this._elementDisplayValue; // Revert to cached value
     }
 
     public get element(): HTMLInputElement { return this._element; }
