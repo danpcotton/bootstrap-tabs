@@ -34,7 +34,7 @@ You can also provide a settings object as the second parameter to provide custom
 ## CSS/SCSS
 Both compiled CSS and the source SCSS is included in this package. You can from whichever works best for your project.
 
-To import the SCSS into your worflow, you can add the following to your 
+To import the SCSS into your worflow, you can add the following to your sass file:
 ```scss
 @import "bootstrap-tabs/dist/scss/bootstrap-tabs";
 ```
