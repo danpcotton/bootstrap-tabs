@@ -141,6 +141,7 @@ export class BootstrapTabs
         if (!this._settings?.disableDelete)
         {
             let deleteBtn = document.createElement("button");
+            deleteBtn.type = "button";
             let deleteBtnClasses: Array<string> = [];
             deleteBtnClasses.push(...(this._settings?.deleteBtnClassList ?? ["btn", "btn-sm", "text-dark"]));
             deleteBtn.classList.add(...deleteBtnClasses);
