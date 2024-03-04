@@ -1,13 +1,14 @@
 {
   "name": "bootstrap-tabs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Extends an input text field to store multiple values",
   "main": "./dist/bootstrap-tabs.js",
   "types": "./dist/src/index.d.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --emptyOutDir"
+    "build": "vite build --emptyOutDir",
+    "publish": "npm run build && npm publish"
   },
   "keywords": [],
   "author": "dancotton.uk",

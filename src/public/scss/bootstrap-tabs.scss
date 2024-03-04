@@ -6,7 +6,13 @@
     gap: 0.5rem;
 }
 
-.bs-tabs-tabs-container
+.bs-tabs-container>input
+{
+    min-width: 6.25rem;
+    flex: 1;
+}
+
+.bs-tabs-container>.bs-tabs-tabs-container
 {
     max-width: 100%;
     display: flex;
@@ -15,19 +21,13 @@
     gap: 0.5rem;
 }
 
-.bs-tabs-container>input
-{
-    min-width: 6.25rem;
-    flex: 1;
-}
-
-.bs-tabs-tab
+.bs-tabs-tabs-container>.bs-tabs-tab
 {
     display: flex;
     align-items: stretch;
 }
 
-.bs-tabs-tab>span
+.bs-tabs-tabs-container>.bs-tabs-tab>span
 {
     display: flex;
     align-items: center;

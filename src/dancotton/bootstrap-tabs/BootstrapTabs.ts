@@ -13,11 +13,14 @@ export interface BSSettings
 
 export class BootstrapTabs
 {
+    private static readonly DEFAULT_SEPARATOR: string = ',';
+
     private _element: HTMLInputElement;
     private _elementDisplayValue: string;
     private _settings: BSSettings;
 
     private changeListener: (e: Event) => void;
+    private keyDownListener: (e: KeyboardEvent) => boolean;
 
     private container: HTMLDivElement;
     private tabsContainer: HTMLDivElement;
@@ -36,9 +39,21 @@ export class BootstrapTabs
     {
         this._elementDisplayValue = this._element.style.display; // Cache
         this._element.style.display = "none";
+
         this.create();
 
+        // Handle default input values
+        let values: Array<string> = this._element.value.split(this.separator).filter(v => v);
+        if (values.length)
+        {
+            for (let v of values)
+            {
+                this.validateAndCreateTab(v);
+            }
+        }
+
         this.changeListener = this.onChangedTriggered.bind(this);
+        this.keyDownListener = this.onKeyDownTriggered.bind(this);
         this.addListeners();
     }
 
@@ -66,7 +81,14 @@ export class BootstrapTabs
 
     private onChangedTriggered(e: Event): void
     {
-        let text: string = this.dummyInput.value;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        this.validateAndCreateTab(this.dummyInput.value);
+    }
+
+    private validateAndCreateTab(text: string): void
+    {
         let valid: boolean = true;
 
         if (this._settings?.beforeAdd)
@@ -81,12 +103,8 @@ export class BootstrapTabs
             this.dummyInput.value = "";
 
             // Update element value
-            let valueSeparator: string = this._settings?.valueSeparator ?? ',';
-            this._element.value = this.items.join(valueSeparator);
+            this._element.value = this.items.join(this.separator);
         }
-
-        e.preventDefault();
-        e.stopImmediatePropagation();
     }
 
     private drawItems(): void
@@ -166,13 +184,25 @@ export class BootstrapTabs
         this.drawItems();
     }
 
+    private onKeyDownTriggered(e: KeyboardEvent): boolean
+    {
+        if (e.key == "Enter")
+        {
+            this.validateAndCreateTab(this.dummyInput.value);
+            e.preventDefault();
+        }
+        return true;
+    }
+
     private addListeners(): void
     {
-        this.dummyInput.addEventListener("change", this.changeListener, false);
+        this.dummyInput.addEventListener("keydown", this.keyDownListener);
+        this.dummyInput.addEventListener("change", this.changeListener, true);
     }
 
     private removeListeners(): void
     {
+        this.dummyInput.removeEventListener("keydown", this.keyDownListener);
         this.dummyInput.removeEventListener("change", this.changeListener);
     }
 
@@ -189,4 +219,5 @@ export class BootstrapTabs
 
     public get element(): HTMLInputElement { return this._element; }
     public get settings(): BSSettings { return this._settings; }
+    public get separator(): string { return this.settings?.valueSeparator ?? BootstrapTabs.DEFAULT_SEPARATOR; }
 }
