@@ -36,11 +36,27 @@ Both compiled CSS and the source SCSS is included in this package. You can from 
 
 To import the SCSS into your worflow, you can add the following to your 
 ```scss
-@import "bootstrap-tabs/scss/bootstrap-tabs";
+@import "bootstrap-tabs/dist/scss/bootstrap-tabs";
+```
+
+If you're using vite you may need to add an alias to your vite.config.js:
+```js
+export default defineConfig({
+    resolve: {
+        alias: {
+            '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+            '~bootstrap-tabs': path.resolve(__dirname, 'node_modules/bootstrap-tabs'),
+        }
+    },
+    ...
+```
+and then import using the alias:
+```scss
+@import "~bootstrap-tabs/dist/scss/bootstrap-tabs";
 ```
 
 ## Cleanup
 You can cleanup an instance by calling:
 ```js
-bootstrapTabInstance.dispose();
+instance.dispose();
 ```

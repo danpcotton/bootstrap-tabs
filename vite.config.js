@@ -3,7 +3,7 @@ import dts from 'vite-plugin-dts';
 
 export default defineConfig({
     root: "./src",
-    base: "",
+    base: "./",
     build: {
         outDir: "../dist",
         lib: {
@@ -15,5 +15,9 @@ export default defineConfig({
     },
     plugins: [
         dts()
-    ]
+    ],
+    esbuild: {
+        minifyIdentifiers: false,
+        keepNames: true,
+    },
 });
