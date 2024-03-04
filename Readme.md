@@ -23,13 +23,13 @@ You can also provide a settings object as the second parameter to provide custom
 | ------- | ---- | ------- | ----- |
 | `valueSeparator` | `string` | `','` | Provide a custom value separator when written back to the original input's value attribute
 | `sortItems` | `boolean` | `false` | Enables or disables the default sort (Calls the built in array sort() function) |
-| `sort` | `(a: string, b: string) => number;` | `null` | Provide a custom sort callback to order the tabs how you wish |
+| `sort` | `(a: string, b: string) => number;` | `null` | Provide a custom sort callback to order the tabs how you wish. Providing this value overrides the `sortItems` value. |
 | `beforeAdd` | `(text: string) => boolean;` | `null` | Provide a callback function which returns a `boolean` to validate the newly created tab. This can be used to discard tabs before they're created |
 | `disableDelete` | `boolean` | `false` | Set this to true to hide the delete button within each tab |
 | `tabContentRenderer` | `(text: string, index: number) => string;` | `<span>${text}</span>` | Provide a function that returns an HTML string containing the contents of the tab to render. |
 | `deleteContentRenderer` | `(text: string, index: number) => string;` | `<i class="bi bi-x-circle"></i>` | Provide a function that returns an HTML string containing the contents of the delete button within each tab to render. By default this uses the bootstrap-icons library `bi-x-circle` icon, so this function can be used to override this behaviour |
 | `tabClassList` | `Array<string>` | `["badge", "bg-light", "text-dark"]` | The list of additional classes to be added to the tab. You can provide these as a way to fully customise how the tabs look. (Note: If you specify this array, the default classes will not be added) |
-| `deleteBtnClassList` | `Array<string>` | `["badge", "bg-light", "text-dark"]` | The list of additional classes to be added to the tab. You can provide these as a way to fully customise how the tabs look. (Note: If you specify this array, the default classes will not be added) |
+| `deleteBtnClassList` | `Array<string>` | `["btn", "btn-sm", "text-dark"]` | The list of additional classes to be added to the delete button. You can provide these as a way to fully customise how the delete button looks. (Note: If you specify this array, the default classes will not be added) |
 
 ## CSS/SCSS
 Both compiled CSS and the source SCSS is included in this package. You can from whichever works best for your project.
