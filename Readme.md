@@ -31,6 +31,20 @@ You can also provide a settings object as the second parameter to provide custom
 | `tabClassList` | `Array<string>` | `["badge", "bg-light", "text-dark"]` | The list of additional classes to be added to the tab. You can provide these as a way to fully customise how the tabs look. (Note: If you specify this array, the default classes will not be added) |
 | `deleteBtnClassList` | `Array<string>` | `["btn", "btn-sm", "text-dark"]` | The list of additional classes to be added to the delete button. You can provide these as a way to fully customise how the delete button looks. (Note: If you specify this array, the default classes will not be added) |
 
+### Exposed methods
+You can interact with your bootstrap-tabs instance in the following ways:
+```js
+// Add a new tab (Note this will still execute the beforeAdd / sort settings parameters if provided):
+const successfullyAdded = instance.addTab("<Tab value>");
+
+// Remove a tab:
+instance.removeTab("<Tab value>");
+
+// Cleanup the instance by calling:
+instance.dispose();
+```
+
+
 ## CSS/SCSS
 Both compiled CSS and the source SCSS is included in this package. You can from whichever works best for your project.
 
@@ -53,10 +67,4 @@ export default defineConfig({
 and then import using the alias:
 ```scss
 @import "~bootstrap-tabs/dist/scss/bootstrap-tabs";
-```
-
-## Cleanup
-You can cleanup an instance by calling:
-```js
-instance.dispose();
 ```

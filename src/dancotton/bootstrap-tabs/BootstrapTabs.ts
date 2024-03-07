@@ -87,16 +87,20 @@ export class BootstrapTabs
         this.validateAndCreateTab(this.dummyInput.value);
     }
 
-    private validateAndCreateTab(text: string): void
+    private validateAndCreateTab(text: string): boolean
     {
-        let valid: boolean = true;
+        if (!text.length)
+        {
+            return false;
+        }
 
+        let valid: boolean = true;
         if (this._settings?.beforeAdd)
         {
             valid = this._settings.beforeAdd(text);
         }
 
-        if (text.length && valid)
+        if (valid)
         {
             this.items.push(text);
             this.drawItems();
@@ -105,6 +109,8 @@ export class BootstrapTabs
             // Update element value
             this._element.value = this.items.join(this.separator);
         }
+
+        return valid;
     }
 
     private drawItems(): void
@@ -178,12 +184,6 @@ export class BootstrapTabs
         return tab;
     }
 
-    private removeTab(text: string): void
-    {
-        this.items.splice(this.items.indexOf(text), 1);
-        this.drawItems();
-    }
-
     private onKeyDownTriggered(e: KeyboardEvent): boolean
     {
         if (e.key == "Enter")
@@ -204,6 +204,17 @@ export class BootstrapTabs
     {
         this.dummyInput.removeEventListener("keydown", this.keyDownListener);
         this.dummyInput.removeEventListener("change", this.changeListener);
+    }
+
+    public addTab(text: string): boolean
+    {
+        return this.validateAndCreateTab(text);
+    }
+
+    public removeTab(text: string): void
+    {
+        this.items.splice(this.items.indexOf(text), 1);
+        this.drawItems();
     }
 
     public dispose(): void
