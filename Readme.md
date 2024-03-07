@@ -21,6 +21,7 @@ You can also provide a settings object as the second parameter to provide custom
 
 | Setting | Type | Default | Notes |
 | ------- | ---- | ------- | ----- |
+| `allowDuplicates` | `boolean` | `false` | Pass in true to allow duplicate entries, default is `false` |
 | `valueSeparator` | `string` | `','` | Provide a custom value separator when written back to the original input's value attribute
 | `sortItems` | `boolean` | `false` | Enables or disables the default sort (Calls the built in array sort() function) |
 | `sort` | `(a: string, b: string) => number;` | `null` | Provide a custom sort callback to order the tabs how you wish. Providing this value overrides the `sortItems` value. |

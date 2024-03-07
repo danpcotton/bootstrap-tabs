@@ -1,5 +1,6 @@
 export interface BSSettings
 {
+    allowDuplicates?: boolean;
     disableDelete?: boolean;
     beforeAdd?: (text: string) => boolean; // Validation
     sortItems?: boolean;
@@ -95,9 +96,17 @@ export class BootstrapTabs
         }
 
         let valid: boolean = true;
+
+        // Custom provided rules can override validity
         if (this._settings?.beforeAdd)
         {
             valid = this._settings.beforeAdd(text);
+        }
+
+        // Check for duplicates
+        if (!this._settings?.allowDuplicates)
+        {
+            valid = !this.items.includes(text);
         }
 
         if (valid)
