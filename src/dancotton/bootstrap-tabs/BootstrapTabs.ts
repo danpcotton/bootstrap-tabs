@@ -114,9 +114,6 @@ export class BootstrapTabs
             this.items.push(text);
             this.drawItems();
             this.dummyInput.value = "";
-
-            // Update element value
-            this._element.value = this.items.join(this.separator);
         }
 
         return valid;
@@ -150,6 +147,9 @@ export class BootstrapTabs
             this.tabsContainer.appendChild(tab);
             this.tabs.push(tab);
         }
+
+        // Update element value
+        this._element.value = this.items.join(this.separator);
     }
 
     private createTab(text: string, index: number): HTMLDivElement

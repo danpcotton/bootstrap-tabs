@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-tabs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Extends an input text field to store multiple values",
   "main": "./dist/bootstrap-tabs.js",
   "types": "./dist/src/index.d.ts",
